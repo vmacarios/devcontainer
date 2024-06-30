@@ -30,9 +30,9 @@ jobs:
           current_version=$(grep DEVCONTAINER_VERSION= makefile | cut -d '=' -f2)
           previous_version=$(git show HEAD^:makefile | grep DEVCONTAINER_VERSION= | cut -d '=' -f2)
           if [ "$current_version" != "$previous_version" ]; then
-            echo "version_changed=true" >> "$GITHUB_OUTPUT"
+            echo "version_changed='true'" >> "$GITHUB_OUTPUT"
           else
-            echo "version_changed=false" >> "$GITHUB_OUTPUT"
+            echo "version_changed='false'" >> "$GITHUB_OUTPUT"
           fi
 
       - name: version_check output
@@ -42,7 +42,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: check_version
-    if: ${{ needs.check_version.outputs.version_changed }}
+    if: ${{ needs.check_version.outputs.version_changed == 'true'}}
     steps:
       - name: Make
         run: make build
