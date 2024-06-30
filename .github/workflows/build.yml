@@ -46,9 +46,11 @@ jobs:
     steps:
       - name: version_check output
         run: echo ${{ steps.version_check.outputs.version_changed }}
+        shell: /usr/bin/bash
 
       - name: version_check output
         run: echo ${{ steps.version_check.outputs.version_changed == 'true' }}
 
       - name: Make
-        run: make build
+        run: make build -f makefile
+        # shell: /usr/bin/bash
