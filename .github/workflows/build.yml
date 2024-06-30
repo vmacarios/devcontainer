@@ -35,6 +35,13 @@ jobs:
             echo "version_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: version_check output
+        run: echo "The count was ${{ steps.version_check.outputs.version_changed }}"
+
+      - name: check_version output
+        run: echo "The count was ${{ steps.check_version.outputs.version_changed }}"        
+
+
   build:
     runs-on: ubuntu-latest
     needs: check_version
