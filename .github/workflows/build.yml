@@ -42,7 +42,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: check_version
-    # if: needs.check_version.outputs.version_changed == 'true'
+    if: needs.check_version.outputs.version_changed == 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,8 +53,5 @@ jobs:
       - name: version_check output
         run: echo ${{ needs.check_version.outputs.version_changed == 'true' }}
 
-      - run: pwd; ls -lar
-
       - name: Make
         run: make build
-        # shell: /usr/bin/bash
