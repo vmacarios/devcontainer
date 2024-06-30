@@ -21,12 +21,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Fetch the last two commits
 
       - name: Check if version has been changed
         id: version_check
         run: |
           current_version=$(grep DEVCONTAINER_VERSION= makefile | cut -d '=' -f2)
-          previous_version=$(git show HEAD^:makefile | grep DEVCONTAINER_VERSION= | cut -d '=' -f2)
+          previous_version=$(git show origin/main:makefile | grep DEVCONTAINER_VERSION= | cut -d '=' -f2)
           if [ "$current_version" != "$previous_version" ]; then
             echo "version_changed=true" >> "$GITHUB_OUTPUT"
           else
