@@ -27,12 +27,3 @@ podman run \
     localhost/devcontainer \
     bash
 ```
-
-
-DOCKER_ARGS+=" --privileged"  # to allow podman within container
-DOCKER_ARGS+=" --volume ${CONTAINER}:/home/service"  # volume hgas same name as container
-DOCKER_ARGS+=" --volume /etc/localtime:/etc/localtime" # use host timezone in container
-DOCKER_ARGS+=" --volume .:/workspace" # use host current folder in container
-DOCKER_ARGS+=" --uidmap $container_user_id:0:1 --uidmap 0:1:$container_user_id --uidmap $uid_plus_one:$uid_plus_one:$max_minus_uid" # map user namespace
-DOCKER_ARGS+=" -w /workspace" # start the container in the workspace directory
-DOCKER_ARGS+=" --volume /home/vma/.ssh/agent.sock:/home/service/.ssh/ssh-auth.sock" # map ssh agent
