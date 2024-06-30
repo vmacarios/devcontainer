@@ -3,10 +3,10 @@ run-name: Build devcontainer
 
 on:
   push:
-    # branches:
-    #   - main
-    # paths:
-    #   - makefile
+    branches:
+      - main
+    paths:
+      - makefile
   pull_request:
     branches:
       - main
@@ -36,7 +36,7 @@ jobs:
           fi
 
       - name: version_check output
-        run: echo "The count was ${{ steps.version_check.outputs.version_changed }}"
+        run: echo "Code changed':' ${{ steps.version_check.outputs.version_changed }}"
 
 
   build:
