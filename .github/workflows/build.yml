@@ -34,7 +34,6 @@ jobs:
           else
             echo "version_changed=false" >> "$GITHUB_OUTPUT"
           fi
-          echo $version_changed
 
   build:
     runs-on: ubuntu-latest
