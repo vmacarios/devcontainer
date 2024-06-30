@@ -36,7 +36,7 @@ jobs:
           fi
 
       - name: version_check output
-        run: echo "Code changed\u003A ${{ steps.version_check.outputs.version_changed }}"
+        run: echo "version_changed is ${{ steps.version_check.outputs.version_changed }}"
 
 
   build:
