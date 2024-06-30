@@ -9,7 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Include a changelog (CHANGELOG.md)
+- Include a changelog (CHANGELOG.md) (#9)
+- Create README.md (#3)
+- Make container rootless (#11)
+
 
 ### Changed
 
