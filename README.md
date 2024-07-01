@@ -3,10 +3,12 @@ Encapsulated development environment to reduce the boilerplate to start developi
 
 
 ## Build
+
 > podman build -t devcontainer .
 
 
 ## Run
+
 Set uid mapping, map site-packages (place where pip install the packages) to a volume (for persistency) and the current local directory to /workspace (initial directory)
 
 ```
@@ -17,7 +19,7 @@ uid_plus_one=$((container_user_id + 1))
 
 podman run \
     --rm \
-    -it \
+    -d \
     --name devcontainer \
     --uidmap $container_user_id:0:1 \
     --uidmap 0:1:$container_user_id \
@@ -25,14 +27,22 @@ podman run \
     -v "$(pwd):/workspace" \
     -v "site-packages:/usr/local/lib/python3.9/site-packages" \
     localhost/devcontainer \
-    bash
+    sleep infinity
 ```
 
 
-DOCKER_ARGS+=" --privileged"  # to allow podman within container
-DOCKER_ARGS+=" --volume ${CONTAINER}:/home/service"  # volume hgas same name as container
-DOCKER_ARGS+=" --volume /etc/localtime:/etc/localtime" # use host timezone in container
-DOCKER_ARGS+=" --volume .:/workspace" # use host current folder in container
-DOCKER_ARGS+=" --uidmap $container_user_id:0:1 --uidmap 0:1:$container_user_id --uidmap $uid_plus_one:$uid_plus_one:$max_minus_uid" # map user namespace
-DOCKER_ARGS+=" -w /workspace" # start the container in the workspace directory
-DOCKER_ARGS+=" --volume /home/vma/.ssh/agent.sock:/home/service/.ssh/ssh-auth.sock" # map ssh agent
+## Forward SSH agent
+
+To use the SSH agent inside the container, the following commands shall be executed before entering into the container
+
+```
+  exec socat $SSH_AUTH_SOCK EXEC:"podman exec -i devcontainer 'socat - UNIX-LISTEN:/home/$(podman exec devcontainer whoami)/.ssh/ssh-auth.sock,unlink-early,fork',nofork" &
+  # trap "kill $!" INT TERM EXIT (only useful in script)
+```
+
+## Jump into the container
+
+> podman exec -it devcontainer bash
+
+## Notes
+https://www.redhat.com/sysadmin/getting-started-socat
