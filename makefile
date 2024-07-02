@@ -46,6 +46,7 @@ run:
 		--uidmap 0:1:${CONTAINER_USER_ID} \
 		--uidmap ${UID_PLUS_ONE}:${UID_PLUS_ONE}:${MAX_MINUS_UID} \
 		-v "$$(pwd):/workspace" \
+		-v "devcontainer-home:/user-homedir" \
 		-v "site-packages:/usr/local/lib/python3.9/site-packages" \
 		${IMAGEFULLNAME} \
 		bash

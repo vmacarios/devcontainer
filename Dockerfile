@@ -5,7 +5,7 @@ FROM base
 ARG USERNAME=service
 ARG UID=2000
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y \   
+    apt-get install --no-install-recommends -y \
         ansible-core \
         libgl1 \
         libglib2.0-0 \
@@ -22,7 +22,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -ms /bin/bash -u ${UID} ${USERNAME} && \
     mkdir -m=0700 /home/${USERNAME}/.ssh/ && \
-    chown ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh/
+    chown ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh/ && \
+    ln -s /home/${USERNAME} /user-homedir
+
 
 USER ${USERNAME}
 ENV HOME=/home/${USERNAME} \

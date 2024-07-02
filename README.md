@@ -9,7 +9,11 @@ Encapsulated development environment to reduce the boilerplate to start developi
 
 ## Run
 
-Set uid mapping, map site-packages (place where pip install the packages) to a volume (for persistency) and the current local directory to /workspace (initial directory)
+As the username can be changed in the Dockerfile, a symlink to the user home directory is 
+created at the root directory (/user-homedir)  
+The following command set uid mapping, map the user-homedir and site-packages (place where pip install the packages) 
+to a volume (for persistency), and the current local directory to /workspace (initial directory)
+and start the container in background
 
 ```
 container_user_id=2000
@@ -25,6 +29,7 @@ podman run \
     --uidmap 0:1:$container_user_id \
     --uidmap $uid_plus_one:$uid_plus_one:$max_minus_uid \
     -v "$(pwd):/workspace" \
+    -v "devcontainer-home:/user-homedir" \
     -v "site-packages:/usr/local/lib/python3.9/site-packages" \
     localhost/devcontainer \
     sleep infinity
@@ -40,9 +45,12 @@ To use the SSH agent inside the container, the following commands shall be execu
   # trap "kill $!" INT TERM EXIT (only useful in script)
 ```
 
+
 ## Jump into the container
 
 > podman exec -it devcontainer bash
 
+
 ## Notes
+
 https://www.redhat.com/sysadmin/getting-started-socat
