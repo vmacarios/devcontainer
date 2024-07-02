@@ -47,6 +47,7 @@ run:
 		--uidmap ${UID_PLUS_ONE}:${UID_PLUS_ONE}:${MAX_MINUS_UID} \
 		-v "$$(pwd):/workspace" \
 		-v "devcontainer-home:/user-homedir" \
+		-v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
 		-v "site-packages:/usr/local/lib/python3.9/site-packages" \
 		${IMAGEFULLNAME} \
 		bash
