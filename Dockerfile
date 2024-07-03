@@ -37,3 +37,4 @@ ENV HOME=/home/${USERNAME} \
 
 
 WORKDIR /workspace
+CMD [ "sleep", "infinity" ]

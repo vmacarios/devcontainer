@@ -33,8 +33,7 @@ podman run \
     -v "site-packages:/usr/local/lib/python3.9/site-packages" \
     -v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
     -v "$SSH_AUTH_SOCK:/user-homedir/.ssh/ssh-auth.sock" \
-    localhost/devcontainer \
-    sleep infinity
+    localhost/devcontainer
 ```
 
 

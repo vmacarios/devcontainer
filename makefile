@@ -16,6 +16,8 @@ UID_PLUS_ONE=$$(expr ${CONTAINER_USER_ID} + 1)
 DOCKER = podman
 DOCKERFILE = Dockerfile
 
+EXEC_CMD = "${DOCKER} exec -it ${IMAGENAME} bash"
+
 .PHONY: help build push run save all
 
 help:
@@ -38,20 +40,26 @@ push:
 	@${DOCKER} push ${IMAGEFULLNAME}
 
 run:
-	@${DOCKER} run \
-		--rm \
-		-it \
-		--name ${IMAGENAME} \
-		--uidmap ${CONTAINER_USER_ID}:0:1 \
-		--uidmap 0:1:${CONTAINER_USER_ID} \
-		--uidmap ${UID_PLUS_ONE}:${UID_PLUS_ONE}:${MAX_MINUS_UID} \
-		-v "$$(pwd):/workspace" \
-		-v "devcontainer-home:/user-homedir" \
-		-v "site-packages:/usr/local/lib/python3.9/site-packages" \
-		-v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
-		-v "$$SSH_AUTH_SOCK:/user-homedir/.ssh/ssh-auth.sock" \
-		${IMAGEFULLNAME} \
-		bash
+	@if podman ps | grep ${IMAGEFULLNAME} > /dev/null 2>&1; then \
+		eval ${EXEC_CMD}; \
+	else \
+		${DOCKER} run \
+			--rm \
+			-d \
+			--name ${IMAGENAME} \
+			--uidmap ${CONTAINER_USER_ID}:0:1 \
+			--uidmap 0:1:${CONTAINER_USER_ID} \
+			--uidmap ${UID_PLUS_ONE}:${UID_PLUS_ONE}:${MAX_MINUS_UID} \
+			-v "$$(pwd):/workspace" \
+			-v "${IMAGENAME}-home:/user-homedir" \
+			-v "site-packages:/usr/local/lib/python3.9/site-packages" \
+			-v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
+			-v "$$SSH_AUTH_SOCK:/user-homedir/.ssh/ssh-auth.sock" \
+			${IMAGEFULLNAME} && \
+		eval ${EXEC_CMD}; \
+	fi
+
+		
 
 # create a compressed image file that can be imported with "docker load", with current version and latest
 save:
