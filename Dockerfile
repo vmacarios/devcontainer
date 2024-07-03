@@ -22,9 +22,10 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -ms /bin/bash -u ${UID} ${USERNAME} && \
-    mkdir -m=0700 /home/${USERNAME}/.ssh/ && \
-    chown ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh/ && \
     ln -s /home/${USERNAME} /user-homedir && \
+    mkdir -m=0700 /user-homedir/.ssh/ && \
+    mkdir -pm=0755 /user-homedir/.ansible/collections/ansible_collections && \
+    chown -R ${USERNAME}:${USERNAME} /user-homedir/ && \
     cat /tmp/bash.bashrc >> /etc/bash.bashrc && \
     rm -f /tmp/bash.bashrc
 
