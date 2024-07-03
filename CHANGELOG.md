@@ -18,6 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create volume for ansible-galaxy modules (#23)
 - Include timestamp in history output (#26)
 
-### Changed
+### Fixed
 
- - 
+ - Fix permissions on .ansible directory (#28)
