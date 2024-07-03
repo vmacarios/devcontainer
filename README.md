@@ -30,20 +30,11 @@ podman run \
     --uidmap $uid_plus_one:$uid_plus_one:$max_minus_uid \
     -v "$(pwd):/workspace" \
     -v "devcontainer-home:/user-homedir" \
-    -v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
     -v "site-packages:/usr/local/lib/python3.9/site-packages" \
+    -v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
+    -v "$SSH_AUTH_SOCK:/user-homedir/.ssh/ssh-auth.sock" \
     localhost/devcontainer \
     sleep infinity
-```
-
-
-## Forward SSH agent
-
-To use the SSH agent inside the container, the following commands shall be executed before entering into the container
-
-```
-  exec socat $SSH_AUTH_SOCK EXEC:"podman exec -i devcontainer 'socat - UNIX-LISTEN:/home/$(podman exec devcontainer whoami)/.ssh/ssh-auth.sock,unlink-early,fork',nofork" &
-  # trap "kill $!" INT TERM EXIT (only useful in script)
 ```
 
 
@@ -52,6 +43,6 @@ To use the SSH agent inside the container, the following commands shall be execu
 > podman exec -it devcontainer bash
 
 
-## Notes
+## SSH agent forwarding
 
-https://www.redhat.com/sysadmin/getting-started-socat
+The SSH agent is forwarded into the container by mapping the $SSH_AUTH_SOCK socket
