@@ -6,12 +6,13 @@ ARG USERNAME=service
 ARG UID=2000
 COPY bash.bashrc /tmp/bash.bashrc
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
+    apt-get install --no-install-recommends --no-install-suggests -y \
         ansible-core \
         libgl1 \
         libglib2.0-0 \
         libgomp1 \
         socat \
+        sshpass \
         vim-tiny \
         # libx11-6 \
         # libxcb1 \
