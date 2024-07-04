@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create volume for user home directory (#22)
 - Create volume for ansible-galaxy modules (#23)
 - Include timestamp in history output (#26)
+- Include "sshpass" package (#34)
+
 
 ### Fixed
 
