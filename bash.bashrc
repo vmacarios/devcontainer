@@ -25,3 +25,9 @@ alias vim="vi"
 
 # add timestamp to history
 export HISTTIMEFORMAT="%F %T  "
+
+####
+# bash.bashrc for devcontainer
+####
+
+
