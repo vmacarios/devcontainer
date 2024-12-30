@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0]
+
+### Changed
+
+ - Update Python version to 3.13.1 (#36)
+
+## [0.1.0]
+
 ### Added
 
 - Include a changelog (CHANGELOG.md) (#9)

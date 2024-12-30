@@ -1,4 +1,4 @@
-DEVCONTAINER_VERSION=0.1.0
+DEVCONTAINER_VERSION=1.0.0
 VERSION=${DEVCONTAINER_VERSION}
 
 IMAGENAME = devcontainer
@@ -52,7 +52,7 @@ run:
 			--uidmap ${UID_PLUS_ONE}:${UID_PLUS_ONE}:${MAX_MINUS_UID} \
 			-v "$$(pwd):/workspace" \
 			-v "${IMAGENAME}-home:/user-homedir" \
-			-v "site-packages:/usr/local/lib/python3.9/site-packages" \
+			-v "site-packages:/usr/local/lib/python3.13/site-packages" \
 			-v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
 			-v "$$SSH_AUTH_SOCK:/user-homedir/.ssh/ssh-auth.sock" \
 			${IMAGEFULLNAME} && \
