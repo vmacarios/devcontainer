@@ -30,7 +30,7 @@ podman run \
     --uidmap $uid_plus_one:$uid_plus_one:$max_minus_uid \
     -v "$(pwd):/workspace" \
     -v "devcontainer-home:/user-homedir" \
-    -v "site-packages:/usr/local/lib/python3.9/site-packages" \
+    -v "site-packages:/usr/local/lib/python3.13/site-packages" \
     -v "ansible-galaxy:/user-homedir/.ansible/collections/ansible_collections" \
     -v "$SSH_AUTH_SOCK:/user-homedir/.ssh/ssh-auth.sock" \
     localhost/devcontainer
