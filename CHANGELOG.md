@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0]
+
 ### Added
 
  - Include terraform (DEVOPS-41)
+
+### Changed
+
+ - Update ansible-core to 2.18 (#39) 
 
 ## [1.0.0]
 
