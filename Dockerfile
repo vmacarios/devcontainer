@@ -14,6 +14,7 @@ RUN apt-get update \
         gpg \
         iputils-ping \
         less \
+        locales \
         openssh-client \
         socat \
         sshpass \
@@ -21,9 +22,12 @@ RUN apt-get update \
         wget \
     && wget -O- "https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=get&search=0x6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367" | gpg --dearmour -o /usr/share/keyrings/ansible-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/ansible-archive-keyring.gpg] http://ppa.launchpad.net/ansible/ansible/ubuntu jammy main" | tee /etc/apt/sources.list.d/ansible.list \
+    && wget -O - "https://apt.releases.hashicorp.com/gpg" | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com bookworm main" | tee /etc/apt/sources.list.d/hashicorp.list \
     && apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y \
         ansible-core \
+        terraform \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -ms /bin/bash -u ${UID} ${USERNAME} \
@@ -32,7 +36,9 @@ RUN apt-get update \
     && mkdir -p -m=0755 /user-homedir/.ansible/collections/ansible_collections \
     && chown -R ${USERNAME}:${USERNAME} /user-homedir/ \
     && cat /tmp/bash.bashrc >> /etc/bash.bashrc \
-    && rm -f /tmp/bash.bashrc
+    && rm -f /tmp/bash.bashrc \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen
 
 
 USER ${USERNAME}
