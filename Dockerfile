@@ -36,6 +36,9 @@ RUN apt-get update \
     && rm -f /tmp/bash.bashrc \
     && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen \
+    && wget -O /usr/local/bin/kubectl "https://dl.k8s.io/release/$(wget -qO - https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && chmod +x /usr/local/bin/kubectl \
+    && wget -O - https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash \
     && pip install --no-cache-dir \
         ansible-core
 

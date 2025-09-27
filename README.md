@@ -15,7 +15,7 @@ The following command set uid mapping, map the user-homedir, ansible-galaxy and 
 (place where pip install the packages) to a volume (for persistency), and the current local directory 
 to /workspace (initial directory) and start the container in background
 
-```
+```shell
 container_user_id=2000
 max_uid_count=$(grep $(whoami) /etc/subuid | cut -d':' -f3)
 max_minus_uid=$((max_uid_count - container_user_id))
