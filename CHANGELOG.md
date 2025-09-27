@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.2.0]
+
+### Added
+
+ - Include kubectl and Helm (#44)
+
+
 ## [1.1.0]
 
 ### Added
@@ -15,13 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
- - Update ansible-core to 2.18 (#39) 
+ - Update ansible-core to 2.18 (#39)
+
 
 ## [1.0.0]
 
 ### Changed
 
  - Update Python version to 3.13.1 (#36)
+
 
 ## [0.1.0]
 
