@@ -1,0 +1,59 @@
+FROM quay.io/podman/stable as base
+
+
+FROM base
+
+
+ARG USERNAME=podman
+ARG UID=1000
+
+
+COPY bash.bashrc /tmp/bash.bashrc 
+RUN curl -fsSL https://rpm.releases.hashicorp.com/fedora/hashicorp.repo | tee /etc/yum.repos.d/hashicorp.repo > /dev/null \
+    && dnf update -y \
+    && dnf install --setopt=install_weak_deps=False -y \
+        bash-completion \
+        glibc-langpack-en \
+        glibc-locale-source \
+        iputils \
+        openssl \
+        python-pip \
+        podman-compose \
+        slirp4netns \
+        sqlite \
+        terraform \
+        # socat \
+        # sshpass \
+        # vim-tiny \
+        # wget \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf \
+    && useradd -ms /bin/bash -u ${UID} ${USERNAME} || true \
+    && ln -s /home/${USERNAME} /user-homedir \
+    && mkdir -m=0700 /user-homedir/.ssh/ \
+    && mkdir -p -m=0755 /user-homedir/.ansible/collections/ansible_collections \
+    && chown -R ${USERNAME}:${USERNAME} /user-homedir/ \
+    && cat /tmp/bash.bashrc >> /etc/bashrc \
+    && rm -f /tmp/bash.bashrc \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
+    && podman completion -f /etc/bash_completion.d/podman bash \
+    && curl -Lo /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && chmod +x /usr/local/bin/kubectl \
+    && curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash \
+    && helm completion bash > /etc/bash_completion.d/helm \
+    && pip install --no-cache-dir \
+        ansible-core \
+        ansible-lint
+
+
+USER ${USERNAME}
+ENV HOME=/home/${USERNAME} \
+    TERM=xterm-256color \
+    SSH_AUTH_SOCK=/home/${USERNAME}/.ssh/ssh-auth.sock \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
+RUN terraform -install-autocomplete
+
+
+WORKDIR /workspaces
+CMD [ "sleep", "infinity" ]
